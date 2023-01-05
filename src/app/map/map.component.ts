@@ -96,11 +96,29 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
       let map = ev.target
 
+
+      // add the BG Mountains tiles
+      map.addSource('bgmountains-source', {
+        'type':'raster',
+        'tiles': ['https://bgmtile.kade.si/{z}/{x}/{y}.png'],
+        'tileSize': 256,
+        'attribution': '&copy; <a href="http://www.bgmountains.org/" target="_blank">BGM</a>'  
+      });
+      map.addLayer({
+          'id':'bgmountains-tiles',
+          'type':'raster',
+          'source':'bgmountains-source',
+          'minzoom': 0,
+          'maxzoom': 22,
+          'layout': {'visibility':'visible'}
+      });
+
+
+      // add the points from the geojson file
       map.addSource('places-source', {
         type: 'geojson',
         'data': rilaSotaPeaks
       });
-
       map.addLayer({
         'id':'places',
         'type':'symbol',
@@ -111,6 +129,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
           'visibility':'visible',
         }
       });
+
+      
 
       
     })
